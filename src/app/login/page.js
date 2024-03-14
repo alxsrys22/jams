@@ -1,5 +1,5 @@
 'use client';
-
+import React from 'react';
 import {
   ActionIcon,
   Button,
@@ -12,12 +12,15 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import SomeComponent from '../_components/SomeCompent';
 
 const Login = () => {
   const [opened, { toggle }] = useDisclosure(false);
+  const [name, setName] = React.useState('Alex');
 
   return (
     <Grid gutter={0}>
+      <SomeComponent name={name} />
       <GridCol span={12}>
         <Flex justify="center" align="center">
           <Title order={1}>J A M S</Title>
@@ -39,7 +42,12 @@ const Login = () => {
                   </ActionIcon>
                 }
               />
-              <Button mt={8} fullWidth color="red">
+              <Button
+                mt={8}
+                fullWidth
+                color="red"
+                onClick={() => setName('JR')}
+              >
                 Login
               </Button>
             </form>
