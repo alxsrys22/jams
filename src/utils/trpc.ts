@@ -54,7 +54,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
       /**
        * @link https://trpc.io/docs/v11/data-transformers
        */
-      transformer,
       /**
        * @link https://trpc.io/docs/v11/client/links
        */
@@ -66,6 +65,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
+          transformer,
           url: `${getBaseUrl()}/api/trpc`,
           /**
            * Set custom request headers on every request from tRPC
@@ -87,7 +87,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
               ...headers,
             };
           },
-          transformer: transformer,
         }),
       ],
       /**
@@ -100,6 +99,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
    * @link https://trpc.io/docs/v11/ssr
    */
   ssr: false,
+  transformer,
   /**
    * Set headers or status code when doing SSR
    */
