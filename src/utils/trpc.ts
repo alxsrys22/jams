@@ -6,7 +6,7 @@ import type { NextPageContext } from 'next';
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
 import { transformer } from './transformer';
 import { AppRouter } from '../server/routers/_app';
-
+// comment
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
     return '';
