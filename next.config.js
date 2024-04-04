@@ -21,12 +21,12 @@ module.exports = getConfig({
     return [
       {
         source: '/',
-        destination: '/login',
-        permanent: false,
-      },
-    ];
+        destination: '/referrals',
+        permanent: true,
+      }
+    ]
   },
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },
-});
+})
