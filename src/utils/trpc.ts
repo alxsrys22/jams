@@ -6,7 +6,7 @@ import type { NextPageContext } from 'next';
 // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-8.html#type-only-imports-and-export
 import { transformer } from './transformer';
 import { AppRouter } from '../server/routers/_app';
-// comment
+
 function getBaseUrl() {
   if (typeof window !== 'undefined') {
     return '';
@@ -54,6 +54,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
       /**
        * @link https://trpc.io/docs/v11/data-transformers
        */
+      transformer,
       /**
        * @link https://trpc.io/docs/v11/client/links
        */
@@ -65,7 +66,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
-          transformer,
           url: `${getBaseUrl()}/api/trpc`,
           /**
            * Set custom request headers on every request from tRPC
@@ -99,7 +99,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
    * @link https://trpc.io/docs/v11/ssr
    */
   ssr: false,
-  transformer,
   /**
    * Set headers or status code when doing SSR
    */
