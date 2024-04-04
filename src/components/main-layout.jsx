@@ -21,7 +21,11 @@ export function Layout({ children }) {
       </AppShell.Header>
       <AppShell.Navbar p="md">
         {['Profile', 'Applications', 'Bench dashboard'].map(link => (
-          <NavLink href="#required-for-focus" label={link} />
+          <NavLink
+            key={`${link}-nav`}
+            href="#required-for-focus"
+            label={link}
+          />
         ))}
       </AppShell.Navbar>
       <AppShell.Main>{children}</AppShell.Main>

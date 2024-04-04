@@ -23,10 +23,10 @@ module.exports = getConfig({
         source: '/',
         destination: '/referrals',
         permanent: true,
-      },
-    ];
+      }
+    ]
   },
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },
-});
+})
