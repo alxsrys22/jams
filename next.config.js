@@ -21,8 +21,8 @@ module.exports = getConfig({
     return [
       {
         source: '/',
-        destination: '/referrals',
-        permanent: true,
+        destination: '/login',
+        permanent: false,
       },
     ];
   },

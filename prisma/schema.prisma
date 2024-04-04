@@ -19,4 +19,23 @@ model User {
   last_name String
   password String
   email String @unique
+  jobs_applied UserAppliedJobs[]
+}
+
+model JobListing {
+  id     Int     @id @default(autoincrement())
+  position String
+  skills_required String
+  users_applied UserAppliedJobs[]
+  created DateTime @default(now())
+}
+
+model UserAppliedJobs {
+  user User? @relation(fields: [user_id], references: [id])
+  user_id Int
+  job_id Int
+  job JobListing @relation(fields: [job_id], references: [id])
+  created DateTime @default(now())
+
+  @@id([user_id, job_id])
 }
