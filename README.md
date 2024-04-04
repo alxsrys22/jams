@@ -21,3 +21,18 @@ This template comes with the following features:
 
 ## Notes
 Editing and Deletion of referrals is not implemented as the instructions of the exam requires only the Create Referral functionality
+# Workflow
+```
+git clone https://github.com/alxsrys22/jams.git && cd jams
+cp .env.development.sample .env.development
+docker compose up -d
+```
+
+### Development setup
+
+- Install [Docker/Docker desktop](https://www.docker.com/products/docker-desktop/).
+- Install and setup Supabase locally. Instructions are [here](https://supabase.com/docs/guides/self-hosting/docker). (Optional)
+
+### Stack
+
+[Mantine Documentation](https://mantine.dev/guides/next/)
