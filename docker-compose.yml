@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+      - /home/node/app/.next
+    ports:
+      - 3000:3000
+    env_file:
+      - path: ./.env.development
