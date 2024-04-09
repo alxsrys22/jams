@@ -19,8 +19,6 @@ export const theme = createTheme({
     TextInput: TextInput.extend({
       styles: {
         label: {
-          textTransform: 'uppercase',
-          color: 'gray',
           fontSize: 12,
           fontWeight: 400,
         },
@@ -37,9 +35,6 @@ export const theme = createTheme({
       styles: {
         root: {
           borderRadius: 0,
-          textTransform: 'uppercase',
-          boxShadow: '5px 5px 14px 0px rgba(201,197,197,1)',
-          fontSize: 16,
         },
       },
     }),
