@@ -10,4 +10,4 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-CMD npm run dev
+CMD ["npm", "run", "dev"]
