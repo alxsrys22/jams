@@ -1,15 +1,8 @@
-'use client';
-
-import { trpc } from '@/utils/trpc';
-import { Layout } from '@/components/main-layout';
 import { ReactElement } from 'react';
+import { Layout } from '@/components/main-layout';
 
-const Profile = () => {
-  return <div>MAIN</div>;
-};
+const Profile = () => <div>MAIN</div>;
 
-Profile.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+Profile.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;
 
 export default Profile;

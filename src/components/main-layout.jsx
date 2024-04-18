@@ -1,6 +1,6 @@
 'use client';
 
-import { AppShell, Burger, Group, NavLink, Skeleton } from '@mantine/core';
+import { AppShell, Burger, Group, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import Image from 'next/image';
 

@@ -8,7 +8,7 @@ import { userRouter } from './user/user';
 export const appRouter = router({
   healthcheck: publicProcedure.query(() => 'yay!'),
   jobListing: jobListingRouter,
-  user: userRouter
+  user: userRouter,
 });
 
 export const createCaller = createCallerFactory(appRouter);

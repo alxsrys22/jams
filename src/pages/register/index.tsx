@@ -1,4 +1,3 @@
-import { RouterInput, trpc } from '@/utils/trpc';
 import {
   ActionIcon,
   Button,
@@ -12,21 +11,14 @@ import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconAt, IconEye, IconEyeOff, IconLock } from '@tabler/icons-react';
 import Link from 'next/link';
+import { RouterInput, trpc } from '@/utils/trpc';
 
 type CreateInput = RouterInput['user']['signUp'];
 
 const Register = () => {
   const [opened, { toggle }] = useDisclosure(false);
-  const sampleQ = trpc.user.all.useQuery();
-  console.log(sampleQ.data);
-  const signUpMutation = trpc.user.signUp.useMutation({
-    onSuccess: data => {
-      console.log(data);
-    },
-    onError: error => {
-      console.log(error);
-    },
-  });
+
+  const signUpMutation = trpc.user.signUp.useMutation();
   const form = useForm<CreateInput & { repassword: String }>({
     initialValues: {
       last_name: '',
@@ -38,9 +30,7 @@ const Register = () => {
     validate: {
       last_name: val => (!val ? 'This is required' : null),
       first_name: val => (!val ? 'This is required' : null),
-      password: value => {
-        if (!value) return 'This is required';
-      },
+      password: val => (!val ? 'This is required' : null),
       email: val => (!val ? 'This is required' : null),
       repassword: (val, values) =>
         val !== values.password ? 'Password do not match' : null,

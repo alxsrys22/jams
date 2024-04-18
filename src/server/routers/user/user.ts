@@ -2,7 +2,6 @@
  *
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
-import type { Prisma } from '@prisma/client';
 import { z } from 'zod';
 import { publicProcedure, router } from '../../trpc';
 import { prisma } from '../../prisma';
@@ -28,7 +27,7 @@ export const userRouter = router({
     return sample;
   }),
   signUp: publicProcedure.input(UserModel).mutation(async ({ input }) => {
-    const { data, error } = await supabase.auth.signUp({
+    const { data } = await supabase.auth.signUp({
       email: input.email,
       password: input.password,
       options: {
@@ -38,7 +37,7 @@ export const userRouter = router({
         },
       },
     });
-    console.log(error);
+
     return data;
   }),
 });
