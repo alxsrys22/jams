@@ -3,10 +3,10 @@
  * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
  */
 import type { Prisma } from '@prisma/client';
-import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 import { publicProcedure, router } from '../../trpc';
 import { prisma } from '../../prisma';
+import { supabase } from '@/utils/supbase';
 
 /**
  * Default selector for Post.
@@ -15,20 +15,30 @@ import { prisma } from '../../prisma';
  */
 
 const UserModel = z.object({
-  given_name: z.string(),
+  first_name: z.string(),
   email: z.string().email(),
-  surname: z.string(),
-  phone: z.string(),
-  house_number: z.string(),
-  street_name: z.string(),
-  suburb: z.string(),
-  state: z.string(),
-  post_code: z.number(),
-  country: z.string(),
+  last_name: z.string(),
+  password: z.string(),
 });
 
 export const userRouter = router({
-  all: publicProcedure.query(() => {
-    return { data: { user: [{ name: 'yey' }] } };
+  all: publicProcedure.query(async () => {
+    const sample = await prisma.privilege.findMany();
+
+    return sample;
+  }),
+  signUp: publicProcedure.input(UserModel).mutation(async ({ input }) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: input.email,
+      password: input.password,
+      options: {
+        data: {
+          first_name: input.first_name,
+          last_name: input.last_name,
+        },
+      },
+    });
+    console.log(error);
+    return data;
   }),
 });

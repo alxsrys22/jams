@@ -44,6 +44,7 @@ export interface SSRContext extends NextPageContext {
  * A set of strongly-typed React hooks from your `AppRouter` type signature with `createReactQueryHooks`.
  * @link https://trpc.io/docs/v11/react#3-create-trpc-hooks
  */
+
 export const trpc = createTRPCNext<AppRouter, SSRContext>({
   config({ ctx }) {
     /**
@@ -58,6 +59,7 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
       /**
        * @link https://trpc.io/docs/v11/client/links
        */
+      transformer,
       links: [
         // adds pretty logs to your console in development and logs errors in production
         loggerLink({
@@ -67,7 +69,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
         }),
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
-          transformer,
           /**
            * Set custom request headers on every request from tRPC
            * @link https://trpc.io/docs/v11/ssr
@@ -100,7 +101,6 @@ export const trpc = createTRPCNext<AppRouter, SSRContext>({
    * @link https://trpc.io/docs/v11/ssr
    */
   ssr: false,
-  transformer,
   /**
    * Set headers or status code when doing SSR
    */

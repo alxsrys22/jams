@@ -1,5 +1,3 @@
-const { env } = require('./src/server/env');
-
 /**
  * Don't be scared of the generics here.
  * All they do is to give us autocompletion when using this.
@@ -21,12 +19,12 @@ module.exports = getConfig({
     return [
       {
         source: '/',
-        destination: '/referrals',
+        destination: '/login',
         permanent: true,
-      }
-    ]
+      },
+    ];
   },
   publicRuntimeConfig: {
-    NODE_ENV: env.NODE_ENV,
+    NODE_ENV: process.env.NODE_ENV,
   },
-})
+});
