@@ -24,8 +24,11 @@ model User {
 
 model JobListing {
   id     Int     @id @default(autoincrement())
-  position String
-  skills_required String
+  job_title String
+  skills_required Json?
+  is_urgent Boolean @default(false)
+  status JobStatus @default(OPEN)
+  yrs_required Int
   users_applied UserAppliedJobs[]
   created DateTime @default(now())
 }
@@ -38,4 +41,9 @@ model UserAppliedJobs {
   created DateTime @default(now())
 
   @@id([user_id, job_id])
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
 }
