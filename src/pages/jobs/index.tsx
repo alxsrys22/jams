@@ -1,3 +1,4 @@
+import { Layout } from '@/components/main-layout';
 import {
   Container,
   Title,
@@ -20,6 +21,8 @@ import {
   IconFlame,
   IconTrash,
 } from '@tabler/icons-react';
+import Link from 'next/link';
+import { ReactElement } from 'react';
 
 export default function JobPage() {
   return (
@@ -43,7 +46,12 @@ export default function JobPage() {
             <Button color="black" variant="outline" style={{ width: 100 }}>
               Search
             </Button>
-            <Button color="black" leftSection={<IconCirclePlus size={16} />}>
+            <Button
+              color="black"
+              leftSection={<IconCirclePlus size={16} />}
+              component={Link}
+              href="/jobs/create"
+            >
               Create Job
             </Button>
           </Flex>
@@ -144,3 +152,7 @@ export default function JobPage() {
     </Container>
   );
 }
+
+JobPage.getLayout = (page: ReactElement) => {
+  return <Layout>{page}</Layout>;
+};
