@@ -1,5 +1,3 @@
-'use client';
-
 import {
   ActionIcon,
   Button,
@@ -9,12 +7,44 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconAt, IconEye, IconEyeOff, IconLock } from '@tabler/icons-react';
 import Link from 'next/link';
+import { RouterInput, trpc } from '@/utils/trpc';
+
+type CreateInput = RouterInput['user']['signUp'];
 
 const Register = () => {
   const [opened, { toggle }] = useDisclosure(false);
+
+  const signUpMutation = trpc.user.signUp.useMutation();
+  const form = useForm<CreateInput & { repassword: String }>({
+    initialValues: {
+      last_name: '',
+      first_name: '',
+      password: '',
+      email: '',
+      repassword: '',
+    },
+    validate: {
+      last_name: val => (!val ? 'This is required' : null),
+      first_name: val => (!val ? 'This is required' : null),
+      password: val => (!val ? 'This is required' : null),
+      email: val => (!val ? 'This is required' : null),
+      repassword: (val, values) =>
+        val !== values.password ? 'Password do not match' : null,
+    },
+  });
+
+  const handleSubmit = (values: typeof form.values) => {
+    signUpMutation.mutate({
+      first_name: values.first_name,
+      last_name: values.last_name,
+      email: values.email,
+      password: values.password,
+    });
+  };
 
   return (
     <Flex gap="md" mx="xl" py="69px" h="100vh" direction="row">
@@ -24,73 +54,86 @@ const Register = () => {
           <Flex justify="center">
             <Skeleton animate={false} height={100} circle />
           </Flex>
-          <Flex direction="column" component="form" gap="md">
-            <Text fw="700">Registration</Text>
-            <Flex gap="md">
+          <form onSubmit={form.onSubmit(handleSubmit)}>
+            <Flex direction="column" gap="md">
+              <Text fw="700">Registration</Text>
+              <Flex gap="md">
+                <TextInput
+                  label="First Name"
+                  placeholder=" Your first name"
+                  withAsterisk
+                  {...form.getInputProps('first_name')}
+                />
+                <TextInput
+                  label="Last Name"
+                  placeholder=" Your last name"
+                  withAsterisk
+                  {...form.getInputProps('last_name')}
+                />
+              </Flex>
               <TextInput
-                label="First Name"
-                placeholder=" Your first name"
+                label="Email"
+                placeholder="Your email"
+                leftSection={<IconAt size={16} />}
                 withAsterisk
+                {...form.getInputProps('email')}
               />
               <TextInput
-                label="Last Name"
-                placeholder=" Your last name"
+                label="Password"
                 withAsterisk
+                placeholder="Password"
+                type={!opened ? 'password' : 'text'}
+                leftSection={<IconLock size={16} />}
+                rightSection={
+                  <ActionIcon
+                    variant="transparent"
+                    onClick={() => toggle()}
+                    color="gray"
+                  >
+                    {!opened ? <IconEyeOff /> : <IconEye />}
+                  </ActionIcon>
+                }
+                {...form.getInputProps('password')}
               />
+              <TextInput
+                label="Password"
+                withAsterisk
+                placeholder="Confirm password"
+                type={!opened ? 'password' : 'text'}
+                leftSection={<IconLock size={16} />}
+                rightSection={
+                  <ActionIcon
+                    variant="transparent"
+                    onClick={() => toggle()}
+                    color="gray"
+                  >
+                    {!opened ? <IconEyeOff /> : <IconEye />}
+                  </ActionIcon>
+                }
+                {...form.getInputProps('repassword')}
+              />
+              <Button
+                mt={8}
+                fullWidth
+                color="#F41124"
+                type="submit"
+                loading={signUpMutation.isPending}
+              >
+                Register
+              </Button>
+              <Flex justify="center">
+                <Text size="xs" fw="700">
+                  Already have an account?{' '}
+                  <Link
+                    href="/login"
+                    style={{ textDecorationLine: 'none', color: '#228BE6' }}
+                  >
+                    Login
+                  </Link>
+                </Text>
+              </Flex>
             </Flex>
-            <TextInput
-              label="Email"
-              placeholder="Your email"
-              leftSection={<IconAt size={16} />}
-              withAsterisk
-            />
-            <TextInput
-              label="Password"
-              withAsterisk
-              placeholder="Password"
-              type={!opened ? 'password' : 'text'}
-              leftSection={<IconLock size={16} />}
-              rightSection={
-                <ActionIcon
-                  variant="transparent"
-                  onClick={() => toggle()}
-                  color="gray"
-                >
-                  {!opened ? <IconEyeOff /> : <IconEye />}
-                </ActionIcon>
-              }
-            />
-            <TextInput
-              label="Password"
-              withAsterisk
-              placeholder="Confirm password"
-              type={!opened ? 'password' : 'text'}
-              leftSection={<IconLock size={16} />}
-              rightSection={
-                <ActionIcon
-                  variant="transparent"
-                  onClick={() => toggle()}
-                  color="gray"
-                >
-                  {!opened ? <IconEyeOff /> : <IconEye />}
-                </ActionIcon>
-              }
-            />
-            <Button mt={8} fullWidth color="#F41124">
-              Register
-            </Button>
-            <Flex justify="center">
-              <Text size="xs" fw="700">
-                Already have an account?{' '}
-                <Link
-                  href="/login"
-                  style={{ textDecorationLine: 'none', color: '#228BE6' }}
-                >
-                  Login
-                </Link>
-              </Text>
-            </Flex>
-          </Flex>
+          </form>
         </Flex>
       </Paper>
     </Flex>

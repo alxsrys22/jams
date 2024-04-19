@@ -17,6 +17,8 @@ export default trpcNext.createNextApiHandler({
   onError({ error }) {
     if (error.code === 'INTERNAL_SERVER_ERROR') {
       // send to bug reporting
+
+      /* eslint-disable no-console */
       console.error('Something went wrong', error);
     }
   },

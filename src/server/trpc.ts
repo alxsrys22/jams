@@ -29,22 +29,22 @@ const t = initTRPC.context<Context>().create({
  * Create a router
  * @link https://trpc.io/docs/v11/router
  */
-export const router = t.router;
+export const { router } = t;
 
 /**
  * Create an unprotected procedure
  * @link https://trpc.io/docs/v11/procedures
  **/
-export const publicProcedure = t.procedure;
+export const { procedure: publicProcedure } = t;
 
 /**
  * Merge multiple routers together
  * @link https://trpc.io/docs/v11/merging-routers
  */
-export const mergeRouters = t.mergeRouters;
+export const { mergeRouters } = t;
 
 /**
  * Create a server-side caller
  * @link https://trpc.io/docs/v11/server/server-side-calls
  */
-export const createCallerFactory = t.createCallerFactory;
+export const { createCallerFactory } = t;
