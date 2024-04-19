@@ -20,6 +20,11 @@ const UserModel = z.object({
   password: z.string(),
 });
 
+const UserLogin = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
 export const userRouter = router({
   all: publicProcedure.query(async () => {
     const sample = await prisma.privilege.findMany();
@@ -27,7 +32,7 @@ export const userRouter = router({
     return sample;
   }),
   signUp: publicProcedure.input(UserModel).mutation(async ({ input }) => {
-    const { data } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: input.email,
       password: input.password,
       options: {
@@ -38,6 +43,13 @@ export const userRouter = router({
       },
     });
 
+    return data;
+  }),
+  login: publicProcedure.input(UserLogin).mutation(async ({ input }) => {
+    const { data } = await supabase.auth.signInWithPassword({
+      ...input,
+    });
+    console.log('data: ', data);
     return data;
   }),
 });
