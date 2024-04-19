@@ -1,6 +1,4 @@
-'use client';
-
-import { RouterInput, trpc } from '@/utils/trpc';
+import { useState } from 'react';
 import {
   ActionIcon,
   Button,
@@ -11,12 +9,13 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 import { useForm } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { IconAt, IconEye, IconEyeOff, IconLock } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { RouterInput, trpc } from '@/utils/trpc';
 
 type LoginType = RouterInput['user']['login'];
 
@@ -27,8 +26,7 @@ const Login = () => {
   const router = useRouter();
 
   const loginMutation = trpc.user.login.useMutation({
-    onSuccess: data => {
-      console.log(data);
+    onSuccess: () => {
       router.push('/profile');
     },
   });

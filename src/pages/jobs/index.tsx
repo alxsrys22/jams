@@ -1,4 +1,5 @@
-import { Layout } from '@/components/main-layout';
+import { ReactElement } from 'react';
+import Link from 'next/link';
 import {
   Container,
   Title,
@@ -21,8 +22,8 @@ import {
   IconFlame,
   IconTrash,
 } from '@tabler/icons-react';
-import Link from 'next/link';
-import { ReactElement } from 'react';
+
+import { Layout } from '@/components/main-layout';
 
 export default function JobPage() {
   return (
@@ -153,6 +154,4 @@ export default function JobPage() {
   );
 }
 
-JobPage.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+JobPage.getLayout = (page: ReactElement) => <Layout>{page}</Layout>;

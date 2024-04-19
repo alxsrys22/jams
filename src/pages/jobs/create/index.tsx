@@ -15,17 +15,17 @@ import {
   NumberInput,
   CloseButton,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useRouter } from 'next/router';
 import {
   IconCheckbox,
   IconCirclePlus,
   IconPhoto,
   IconPhotoPlus,
 } from '@tabler/icons-react';
-import RichEditor from '@/components/rich-editor';
-import { useRouter } from 'next/router';
-import { useForm } from '@mantine/form';
 import { RouterInput, trpc } from '@/utils/trpc';
-import { randomId } from '@mantine/hooks';
+
+import RichEditor from '@/components/rich-editor';
 
 type CreateJob = RouterInput['jobListing']['create'];
 
@@ -58,23 +58,18 @@ export default function JobCreatePage() {
         yrs_required: val => (!val ? 'This is required' : null),
       },
     },
-    transformValues: values => {
-      return {
-        ...values,
-        yrs_required: Number(values.skills_required),
-        skills_required: values.skills_required.map(item => {
-          return {
-            name: item.name,
-            yrs_required: Number(item.yrs_required),
-          };
-        }),
-      };
-    },
+    transformValues: values => ({
+      ...values,
+      yrs_required: Number(values.skills_required),
+      skills_required: values.skills_required.map(item => ({
+        name: item.name,
+        yrs_required: Number(item.yrs_required),
+      })),
+    }),
   });
 
-  const handleSubmit = (values: typeof form.values) => {
+  const handleSubmit = (values: typeof form.values) =>
     createJobMutation.mutate(values);
-  };
 
   return (
     <Container fluid bg="#F8F9FA" p={24}>
@@ -169,39 +164,37 @@ export default function JobCreatePage() {
                   />
                 </Box>
                 <Stack gap={16}>
-                  {form.values.skills_required.map((item, index) => {
-                    return (
-                      <Flex gap={16} align="center" key={`item-${index}`}>
-                        <Box>
-                          <Text fw={600}>Name</Text>
-                          <TextInput
-                            placeholder="Search Tech skills"
-                            {...form.getInputProps(
-                              `skills_required.${index}.name`
-                            )}
-                          />
-                        </Box>
-                        <Box>
-                          <Text fw={600}>Years of Exp</Text>
-                          <NumberInput
-                            placeholder="0"
-                            {...form.getInputProps(
-                              `skills_required.${index}.yrs_required`
-                            )}
-                          />
-                        </Box>
-                        <CloseButton
-                          mt={24}
-                          bg="red"
-                          c="white"
-                          size="sm"
-                          onClick={() =>
-                            form.removeListItem('skills_required', index)
-                          }
+                  {form.values.skills_required.map((_, index) => (
+                    <Flex gap={16} align="center" key={`item-${index}`}>
+                      <Box>
+                        <Text fw={600}>Name</Text>
+                        <TextInput
+                          placeholder="Search Tech skills"
+                          {...form.getInputProps(
+                            `skills_required.${index}.name`
+                          )}
                         />
-                      </Flex>
-                    );
-                  })}
+                      </Box>
+                      <Box>
+                        <Text fw={600}>Years of Exp</Text>
+                        <NumberInput
+                          placeholder="0"
+                          {...form.getInputProps(
+                            `skills_required.${index}.yrs_required`
+                          )}
+                        />
+                      </Box>
+                      <CloseButton
+                        mt={24}
+                        bg="red"
+                        c="white"
+                        size="sm"
+                        onClick={() =>
+                          form.removeListItem('skills_required', index)
+                        }
+                      />
+                    </Flex>
+                  ))}
                   <Flex justify="center">
                     <Button
                       color="red"
